@@ -21,7 +21,7 @@ export default function Register() {
           id="password"
           name="password"
         />
-        <button className="px-8 py-3 mb-4 text-xl border border-pink-600 rounded-lg">
+        <button className="px-8 py-3 mb-4 text-xl border border-pink-600 rounded-lg" type="submit">
           Register
         </button>
       </form>
