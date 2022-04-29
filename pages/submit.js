@@ -3,19 +3,26 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { firestoreApp } from "../firebase";
 import { useAuth } from "../components/contexts/AuthContext";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function Submit() {
+  const { currentUser } = useAuth();
+  useEffect(() => {
+    if (!currentUser) {
+      router.push("/login");
+    }
+  }, [currentUser, router]);
+
   const assignmentRef = useRef();
   const codeRef = useRef();
   const periodRef = useRef();
   const router = useRouter();
-  const { currentUser } = useAuth();
 
   const [assignments, assignmentsLoading, assignmentsError] = useCollection(
     firestoreApp.collection("assignments"),
     {}
   );
-  
+
   const submit = async (event) => {
     event.preventDefault();
     await firestoreApp
@@ -36,7 +43,12 @@ export default function Submit() {
       <form onSubmit={submit}>
         <div>
           <label htmlFor="assignment">Choose an assignment: </label>
-          <select name="assignment" id="assignment" ref={assignmentRef} className="bg-black">
+          <select
+            name="assignment"
+            id="assignment"
+            ref={assignmentRef}
+            className="bg-black"
+          >
             {!assignmentsLoading && assignments
               ? assignments.docs.map((doc, i) => (
                   <option key={i} value={doc.data().name}>
@@ -47,7 +59,12 @@ export default function Submit() {
           </select>
           <br />
           <label htmlFor="period">Period: </label>
-          <select name="period" id="period" ref={periodRef} className="bg-black">
+          <select
+            name="period"
+            id="period"
+            ref={periodRef}
+            className="bg-black"
+          >
             <option value="p3">P3</option>
             <option value="p6">P6</option>
           </select>
