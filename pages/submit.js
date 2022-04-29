@@ -46,7 +46,7 @@ export default function Submit() {
               : null}
           </select>
           <br />
-          <label htmlFor="period">Choose an assignment: </label>
+          <label htmlFor="period">Period: </label>
           <select name="period" id="period" ref={periodRef} className="bg-black">
             <option value="p3">P3</option>
             <option value="p6">P6</option>
