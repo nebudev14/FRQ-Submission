@@ -1,11 +1,13 @@
 import { useRef } from "react";
 import { useState } from "react";
+import { useRouter } from "next/router";
 import { useAuth } from "../components/contexts/AuthContext";
 import Error from "../components/Error";
 
 export default function Register() {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const router = useRouter();
   const passwordConfirmRef = useRef();
   const { signup } = useAuth();
 
@@ -21,7 +23,8 @@ export default function Register() {
     try {
       setError('');
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value)
+      await signup(emailRef.current.value, passwordRef.current.value);
+      router.push('/login')
     } catch {
       setError('Could not create an account.');
     }

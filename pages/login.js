@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { useState } from "react";
+import { useRouter } from "next/router";
 import { useAuth } from "../components/contexts/AuthContext";
 import Error from "../components/Error";
 import Link from 'next/link';
@@ -7,6 +8,7 @@ import Link from 'next/link';
 export default function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const router = useRouter();
   const { login } = useAuth();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -18,6 +20,7 @@ export default function Login() {
       setError('');
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value)
+      router.push('/');
     } catch {
       setError('Failed to sign in.');
     }
