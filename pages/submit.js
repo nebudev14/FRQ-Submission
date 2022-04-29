@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { firestoreApp } from "../firebase";
-import { doc } from "firebase/firestore";
 import { useAuth } from "../components/contexts/AuthContext";
 import { useRouter } from "next/router";
 
@@ -16,18 +15,16 @@ export default function Submit() {
     firestoreApp.collection("assignments"),
     {}
   );
-  const assignmentReference = doc(firestoreApp, 'assignments/frq-1')
-
-
+  
   const submit = async (event) => {
     event.preventDefault();
-
     await firestoreApp
       .collection("responses")
       .doc(assignmentRef.current.value + "-" + currentUser.email)
       .set({
         answer: codeRef.current.value,
         period: periodRef.current.value,
+        assignemnt: assignmentRef.current.value,
         email: currentUser.email,
       });
     await router.push("/");
@@ -39,7 +36,7 @@ export default function Submit() {
       <form onSubmit={submit}>
         <div>
           <label htmlFor="assignment">Choose an assignment: </label>
-          <select name="assignment" id="assignment" ref={assignmentRef}>
+          <select name="assignment" id="assignment" ref={assignmentRef} className="bg-black">
             {!assignmentsLoading && assignments
               ? assignments.docs.map((doc, i) => (
                   <option key={i} value={doc.data().name}>
@@ -50,7 +47,7 @@ export default function Submit() {
           </select>
           <br />
           <label htmlFor="period">Choose an assignment: </label>
-          <select name="period" id="period" ref={periodRef}>
+          <select name="period" id="period" ref={periodRef} className="bg-black">
             <option value="p3">P3</option>
             <option value="p6">P6</option>
           </select>
@@ -60,7 +57,7 @@ export default function Submit() {
             id="code"
             cols="150"
             rows="30"
-            className="p-6 mb-2 rounded-2xl"
+            className="p-6 mb-2 bg-black rounded-2xl"
             ref={codeRef}
           />
         </div>
