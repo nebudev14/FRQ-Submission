@@ -1,42 +1,43 @@
+import Link from "next/link";
 import { firestoreApp } from "../../../firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import {
-  getFirestore,
-  doc,
-  collection,
-  query,
-  where,
-  orderBy,
-} from "firebase/firestore";
+import { collection, query, where } from "firebase/firestore";
 
 export default function Assignment(props) {
-    const [value, loading, error] = useCollectionData(
-        query(collection(firestoreApp, "responses"), where("assignment", "==", "frq-1"))
-      );
-        
-      console.log(value);
+  const [value, loading, error] = useCollectionData(
+    query(
+      collection(firestoreApp, "responses"),
+      where("assignment", "==", props.assignment)
+    )
+  );
+
+  console.log(value);
 
   return (
     <div className="h-screen p-6 ">
       <h1 className="text-3xl">{props.assignment} submissions</h1>
-      <div className="flex flex-col items-center justify-start">
-      {value &&
+      <div className="flex flex-col items-start justify-start text-left">
+        {value &&
           value.map((doc, i) => (
-            <div key={i}>
+            <Link
+              key={i}
+              href={`/admin/assignment/submission/${props.assignment}/${doc.email}`}
+              passHref
+            >
               <h1>{doc.email}</h1>
-            </div>
+            </Link>
           ))}
       </div>
     </div>
   );
 }
 
-export const getServerSideProps = async context => {
-    const {assignment} = context.params;
-    
-    return {
-        props: {
-            assignment
-        }
-    }
-}
+export const getServerSideProps = async (context) => {
+  const { assignment } = context.params;
+
+  return {
+    props: {
+      assignment,
+    },
+  };
+};
