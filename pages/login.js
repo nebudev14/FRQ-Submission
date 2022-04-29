@@ -7,19 +7,19 @@ import Link from 'next/link';
 export default function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { signup } = useAuth();
+  const { login } = useAuth();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const login = async (event) => {
+  const signIn = async (event) => {
     event.preventDefault();
     
     try {
       setError('');
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value)
+      await login(emailRef.current.value, passwordRef.current.value)
     } catch {
-      setError('Could not create an account.');
+      setError('Failed to sign in.');
     }
 
     setLoading(false);
@@ -27,7 +27,7 @@ export default function Login() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen text-center">
-      <form className="grid grid-cols-1 px-6 py-10 rounded-2xl" onSubmit={register}>
+      <form className="grid grid-cols-1 px-6 py-10 rounded-2xl" onSubmit={signIn}>
         <h1 className="mb-6 text-3xl">Log In</h1>
         {error !== '' ? <Error text={error}  /> : null}
         <input
