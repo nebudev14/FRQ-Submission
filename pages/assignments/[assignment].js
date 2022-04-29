@@ -9,8 +9,6 @@ export default function Assignment(props) {
         {}
     );
     
-
-    
     return (
         <div className="flex items-center justify-center h-screen ">
             {!assignmentsLoading && assignments ? assignments.docs.map((doc) => doc.data().name) : null}
