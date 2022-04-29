@@ -24,7 +24,7 @@ export default function Submit() {
       .set({
         answer: codeRef.current.value,
         period: periodRef.current.value,
-        assignemnt: assignmentRef.current.value,
+        assignment: assignmentRef.current.value,
         email: currentUser.email,
       });
     await router.push("/");
