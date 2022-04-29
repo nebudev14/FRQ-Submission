@@ -5,19 +5,15 @@ export default function Assignment(props) {
     const assignmentName = props.assignment;
     
     const [assignments, assignmentsLoading, assignmentsError] = useCollection(
-        firestoreApp.collection(assignmentName),
+        firestoreApp.collection("assignments"),
         {}
     );
     
-    if(!assignmentsLoading && assignments) {
-        assignments.docs.map((doc) => console.log(doc.data()))
-    } else {
-        console.log(assignmentsError)
-    }
+
     
     return (
         <div className="flex items-center justify-center h-screen ">
-            {/* !assignmentsLoading ? assignments.docs.map((doc) => doc.data.name) : null */}
+            {!assignmentsLoading && assignments ? assignments.docs.map((doc) => doc.data().name) : null}
         </div>
     );
 }
