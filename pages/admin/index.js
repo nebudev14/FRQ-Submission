@@ -9,11 +9,7 @@ import { useRouter } from "next/router";
 export default function Admin() {
   const router = useRouter();
   const { currentUser } = useAuth();
-  const [assignments, assignmentsLoading, assignmentsError] = useCollection(
-    firestoreApp.collection("assignments"),
-    {}
-  );
-
+  
   useEffect(() => {
     if(!currentUser) {
       router.push("/login");
@@ -29,6 +25,11 @@ export default function Admin() {
   if(user !== undefined && user[0].email !== currentUser.email) {
     router.push("https://www.youtube.com/watch?v=xvFZjo5PgG0")
   }
+  
+  const [assignments, assignmentsLoading, assignmentsError] = useCollection(
+    firestoreApp.collection("assignments"),
+    {}
+  );
   
   return (
     <div className="flex flex-col items-center justify-center h-screen">

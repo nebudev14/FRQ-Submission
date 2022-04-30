@@ -2,16 +2,34 @@ import Link from "next/link";
 import { firestoreApp } from "../../../firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { collection, query, where } from "firebase/firestore";
+import { useRouter } from "next/router";
+import { useAuth } from "../../../components/contexts/AuthContext";
+import { useEffect } from "react";
 
 export default function Assignment(props) {
-  const [value, loading, error] = useCollectionData(
+  const router = useRouter();
+  const { currentUser } = useAuth();
+
+  useEffect(() => {
+    if (!currentUser) {
+      router.push("/login");
+    }
+  }, [currentUser, router]);
+
+  const [user, loading, error] = useCollectionData(
+    query(collection(firestoreApp, "users"), where("admin", "==", true))
+  );
+  if (user !== undefined && user[0].email !== currentUser.email) {
+    router.push("https://www.youtube.com/watch?v=xvFZjo5PgG0");
+  }
+  ``;
+
+  const [value, valueLoading, valueError] = useCollectionData(
     query(
       collection(firestoreApp, "responses"),
       where("assignment", "==", props.assignment)
     )
   );
-
-  console.log(value);
 
   return (
     <div className="h-screen p-6 ">

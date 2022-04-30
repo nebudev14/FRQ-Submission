@@ -21,15 +21,16 @@ export default function Nav() {
   );
 
   useEffect(() => {
-    if (user && currentUser && user[0].email === currentUser.email) setAdmin(true);
+    if (user && currentUser && user[0].email === currentUser.email)
+      setAdmin(true);
   }, [user, setAdmin, currentUser]);
 
   const handleLogout = async () => {
     setError("");
 
     try {
-      await logout();
       await router.push("/login");
+      await logout();
     } catch {
       setError("Could not log out.");
     }
@@ -52,13 +53,18 @@ export default function Nav() {
         </Link>
       ))}
       {admin && currentUser != null ? (
-        <Link href="/admin" passHref>
-          <div
-            className="mr-4 text-white duration-200 hover:cursor-pointer hover:text-green-400"
-          >
-            <MdAssignment size={30} />
-          </div>
-        </Link>
+        <div className="flex items-center">
+          <Link href="/admin/publish" passHref>
+            <div className="mr-4 text-white duration-200 hover:cursor-pointer hover:text-green-400">
+              Create
+            </div>
+          </Link>
+          <Link href="/admin" passHref>
+            <div className="mr-4 text-white duration-200 hover:cursor-pointer hover:text-green-400">
+              <MdAssignment size={30} />
+            </div>
+          </Link>
+        </div>
       ) : null}
       {currentUser != null ? (
         <div
