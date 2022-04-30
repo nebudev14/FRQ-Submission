@@ -33,18 +33,51 @@ export default function Assignment(props) {
 
   return (
     <div className="h-screen p-6 ">
-      <h1 className="text-3xl">{props.assignment} submissions</h1>
-      <div className="flex flex-col items-start justify-start text-left">
-        {value &&
-          value.map((doc, i) => (
-            <Link
-              key={i}
-              href={`/admin/assignment/submission/${props.assignment}/${doc.email}`}
-              passHref
-            >
-              <h1>{doc.email}</h1>
-            </Link>
-          ))}
+      <h1 className="mb-6 text-4xl">{props.assignment} submissions</h1>
+      <button className="px-4 py-3 mb-10 text-2xl duration-200 border border-red-500 rounded-lg hover:bg-red-500" onClick={() => router.push("/admin")}>
+        Back
+      </button>
+      <div className="grid grid-cols-2">
+        <div className="text-center">
+          <h1 className="mb-2 text-2xl">Period 3</h1>
+          {value &&
+            value.map((doc, i) =>
+              doc.period == "p3" ? (
+                <>
+                  <Link
+                    key={i}
+                    href={`/admin/assignment/submission/${props.assignment}/${doc.email}`}
+                    passHref
+                  >
+                    <h1 className="inline text-3xl duration-200 hover:text-green-400 hover:cursor-pointer">
+                      {doc.email}
+                    </h1>
+                  </Link>
+                  <br />
+                </>
+              ) : null
+            )}
+        </div>
+        <div className="text-center">
+          <h1 className="mb-2 text-2xl">Period 6</h1>
+          {value &&
+            value.map((doc, i) =>
+              doc.period == "p6" ? (
+                <>
+                  <Link
+                    key={i}
+                    href={`/admin/assignment/submission/${props.assignment}/${doc.email}`}
+                    passHref
+                  >
+                    <h1 className="inline text-3xl duration-200 hover:text-green-400 hover:cursor-pointer">
+                      {doc.email}
+                    </h1>
+                  </Link>{" "}
+                  <br />
+                </>
+              ) : null
+            )}
+        </div>
       </div>
     </div>
   );

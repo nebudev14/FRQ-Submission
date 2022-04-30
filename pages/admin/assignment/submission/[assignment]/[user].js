@@ -37,10 +37,13 @@ export default function Submission() {
   );
 
   return (
-    <div className="h-full p-6">
-      <h1 className="mb-4 text-3xl">
+    <div className="flex flex-col items-start h-full p-6">
+      <h1 className="mb-6 text-3xl">
         {user}&apos;s submission for {assignment}
       </h1>
+      <button className="px-4 py-3 mb-6 text-2xl duration-200 border border-red-500 rounded-lg hover:bg-red-500" onClick={() => router.push(`/admin/assignment/${assignment}`)}>
+        Back
+      </button>
       <textarea
         readOnly={true}
         className="p-6 mb-2 text-xl bg-black rounded-2xl"
