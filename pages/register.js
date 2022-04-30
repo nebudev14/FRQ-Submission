@@ -5,10 +5,11 @@ import { useAuth } from "../components/contexts/AuthContext";
 import Error from "../components/Error";
 
 export default function Register() {
+  const nameRef= useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
-  const router = useRouter();
   const passwordConfirmRef = useRef();
+  const router = useRouter();
   const { signup } = useAuth();
 
   const [error, setError] = useState('');
@@ -23,7 +24,7 @@ export default function Register() {
     try {
       setError('');
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
+      await signup(nameRef.current.value, emailRef.current.value, passwordRef.current.value);
       router.push('/login')
     } catch {
       setError('Could not create an account.');
@@ -37,6 +38,16 @@ export default function Register() {
       <form className="grid grid-cols-1 px-6 py-10 rounded-2xl" onSubmit={register}>
         <h1 className="mb-6 text-3xl">Sign Up</h1>
         {error !== '' ? <Error text={error}  /> : null}
+        <input
+          className="px-3 py-4 mb-3 bg-gray-900 rounded-lg"
+          placeHolder="Name"
+          id="name"
+          name="name"
+          type="text"
+          ref={nameRef}
+          autoComplete="off"
+          required='true'
+        />
         <input
           className="px-3 py-4 mb-3 bg-gray-900 rounded-lg"
           placeHolder="Email"

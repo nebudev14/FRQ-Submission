@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect, createContext } from "react";
 import { auth } from "../../firebase";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { firestoreApp } from "../../firebase";
 
 const AuthContext = createContext();
 
@@ -15,7 +17,15 @@ const AuthProvider = ({ children }) => {
     return auth.signInWithEmailAndPassword(email, password);
   }
 
-  function signup(email, password) {
+  function signup(name, email, password) {
+    firestoreApp
+      .collection("users")
+      .doc(email + "-" + name)
+      .set({
+        admin: false,
+        name: name,
+        email: email
+      });
     return auth.createUserWithEmailAndPassword(email, password);
   }
 
@@ -39,7 +49,11 @@ const AuthProvider = ({ children }) => {
     logout,
   };
 
-  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

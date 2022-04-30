@@ -17,8 +17,6 @@ export default function Submission() {
     )
   );
 
-  if(value) value.map((doc) => console.log(doc))
-
   return (
     <div className="h-full p-6">
       <h1 className="mb-4 text-3xl">
