@@ -1,13 +1,35 @@
 import Link from "next/link";
-import { useCollection } from "react-firebase-hooks/firestore";
+import { useState, useEffect } from "react";
+import { collection, query, where } from "firebase/firestore";
+import { useCollection, useCollectionData } from "react-firebase-hooks/firestore";
 import { firestoreApp } from "../../firebase";
+import { useAuth } from "../../components/contexts/AuthContext";
+import { useRouter } from "next/router";
 
 export default function Admin() {
+  const router = useRouter();
+  const { currentUser } = useAuth();
   const [assignments, assignmentsLoading, assignmentsError] = useCollection(
     firestoreApp.collection("assignments"),
     {}
   );
 
+  useEffect(() => {
+    if(!currentUser) {
+      router.push("/login");
+    }
+  }, [currentUser, router]) 
+
+  const [user, loading, error] = useCollectionData(
+    query(
+      collection(firestoreApp, "users"),
+      where("admin", "==", true)
+    )
+  )
+  if(user !== undefined && user[0].email !== currentUser.email) {
+    router.push("https://www.youtube.com/watch?v=xvFZjo5PgG0")
+  }
+  
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="mb-4 text-2xl text-green-400">Your assignments</h1>

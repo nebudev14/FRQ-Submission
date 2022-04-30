@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect, createContext } from "react";
 import { auth } from "../../firebase";
-import { useCollection } from "react-firebase-hooks/firestore";
 import { firestoreApp } from "../../firebase";
 
 const AuthContext = createContext();
@@ -26,10 +25,12 @@ const AuthProvider = ({ children }) => {
         name: name,
         email: email
       });
+
     return auth.createUserWithEmailAndPassword(email, password);
   }
 
   function logout() {
+
     return auth.signOut();
   }
 
@@ -37,6 +38,7 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setLoading(false);
       setCurrentUser(user);
+
     });
 
     return unsubscribe;
