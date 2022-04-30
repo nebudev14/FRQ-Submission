@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { collection, query, where } from "firebase/firestore";
 import { useCollection, useCollectionData } from "react-firebase-hooks/firestore";
 import { firestoreApp } from "../../firebase";
@@ -32,7 +32,7 @@ export default function Admin() {
   );
   
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex flex-col items-center justify-center h-screen text-center">
       <h1 className="mb-4 text-2xl text-green-400">Your assignments</h1>
       <div className="grid grid-cols-1">
         {!assignmentsLoading && assignments
@@ -44,7 +44,7 @@ export default function Admin() {
               >
                 <div
                   key={i}
-                  className="px-3 py-4 duration-200 border border-gray-300 rounded-xl hover:cursor-pointer hover:border-green-300"
+                  className="px-3 py-4 mb-6 duration-200 border border-gray-300 rounded-xl hover:cursor-pointer hover:border-green-300"
                 >
                   <h2 className="text-3xl">{doc.data().name}</h2>
                 </div>

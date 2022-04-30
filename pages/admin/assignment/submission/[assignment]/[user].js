@@ -8,7 +8,7 @@ import { useEffect } from "react";
 export default function Submission() {
   const router = useRouter();
   const path = router.asPath.split("/");
-  const assignment = path[path.length - 2];
+  const assignment = path[path.length - 2].replace("%20", " ");
   const user = path[path.length - 1];
   const { currentUser } = useAuth();
   
@@ -42,9 +42,9 @@ export default function Submission() {
         {user}&apos;s submission for {assignment}
       </h1>
       <textarea
-        readOnly="true"
+        readOnly={true}
         className="p-6 mb-2 text-xl bg-black rounded-2xl"
-        placeHolder={value && value[0].answer}
+        placeholder={value && value[0].answer}
         cols="130"
         rows="30"
       />
