@@ -4,11 +4,12 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { collection, query, where } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useAuth } from "../../../components/contexts/AuthContext";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export default function Assignment(props) {
   const router = useRouter();
   const { currentUser } = useAuth();
+  const periodRef = useRef();
 
   useEffect(() => {
     if (!currentUser) {
@@ -22,7 +23,6 @@ export default function Assignment(props) {
   if (user !== undefined && user[0].email !== currentUser.email) {
     router.push("https://www.youtube.com/watch?v=xvFZjo5PgG0");
   }
-  ``;
 
   const [value, valueLoading, valueError] = useCollectionData(
     query(
@@ -31,12 +31,49 @@ export default function Assignment(props) {
     )
   );
 
+  const chooseRandom = async (event) => {
+    event.preventDefault();
+    let responses = [];
+    for (const response of value) {
+      if (response.period === "p" + periodRef.current.value) {
+        responses.push(response);
+      }
+    }
+
+    await router.push(
+      `/admin/assignment/submission/${props.assignment}/${
+        responses[[Math.floor(Math.random() * responses.length)]].email
+      }`
+    );
+  };
+
   return (
     <div className="h-screen p-6 ">
       <h1 className="mb-6 text-4xl">{props.assignment} submissions</h1>
-      <button className="px-4 py-3 mb-10 text-2xl duration-200 border border-red-500 rounded-lg hover:bg-red-500" onClick={() => router.push("/admin")}>
+      <button
+        className="px-4 py-3 mb-6 text-2xl duration-200 border border-red-500 rounded-lg hover:bg-red-500"
+        onClick={() => router.push("/admin")}
+      >
         Back
       </button>
+      <form className="mb-10" onSubmit={chooseRandom}>
+        <label htmlFor="period">Period: </label>
+        <select
+          name="period"
+          id="period"
+          ref={periodRef}
+          className="mr-2 bg-black"
+        >
+          <option value="3">3</option>
+          <option value="6">6</option>
+        </select>
+        <button
+          type="submit"
+          className="px-2 py-3 text-lg duration-200 border border-green-400 hover:bg-green-400 rounded-xl"
+        >
+          Choose random response
+        </button>
+      </form>
       <div className="grid grid-cols-2">
         <div className="text-center">
           <h1 className="mb-2 text-2xl">Period 3</h1>
