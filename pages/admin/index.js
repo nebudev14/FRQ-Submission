@@ -19,9 +19,11 @@ export default function Admin() {
   const [user, loading, error] = useCollectionData(
     query(
       collection(firestoreApp, "users"),
-      where("admin", "==", true)
+      where("admin", "==", true),
+      where("email", "==", currentUser.email),
     )
   )
+
   if(user !== undefined && user[0].email !== currentUser.email) {
     router.push("https://www.youtube.com/watch?v=xvFZjo5PgG0")
   }
